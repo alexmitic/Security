@@ -2,14 +2,51 @@
 
 import lists
 let
+   fun cmp p1 p2 matched =
+      let
+         val (px, agentx, pidx) = p1
+         val (py, agenty, pidy) = p2
+         val all_ready_matched = elem (px, py) matched orelse elem (py, px) matched
+
+      in 
+         if all_ready_matched then
+            if agentx py = (true) andalso agenty px = (true) then 
+               (* send profile *) 
+               true
+            else 
+               false
+         else 
+            false
+      end
+
+   fun match p2::ps p1 matched =
+      let   
+         val m = cmp p1 p2 matched
+      in 
+         if m then
+            match ps p1 (p1, p2)::matched
+         else 
+            match ps p1 matched
+      end
+      | match [] _ matched = matched
+
+   fun match_all profiles p1::ps matched = 
+      let   
+         val new_matches = match profiles p1 matched
+      in 
+         match_all profiles p1 matched::new_matches
+      end
+      | match_all [] _ matched = matched
+   
+
     fun server ls = (* TODO: finish this *)
          let
             val data = receive [hn ("NEWPROFILE", data )
                                 => data
                              ]
-            val _ = print ls
+            val _ = match_all ls ls []
          in 
-            server (data::ls)
+            (print [data::ls], server (data::ls))
          end
 
     (* Our main function starts the server and then requests the

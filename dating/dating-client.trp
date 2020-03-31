@@ -1,5 +1,32 @@
 (* Placeholder for the dating-client. Note that in order to communicate 
    with your server you will need to create the corresponding 
    trustmap file *)
+import lists
+let
+   val thisprofile = ({john}, "John", 1918, false, ["snow", "dogs", "guard", "weather forecast"])
+   fun genderPreference ((_, _, _, gender, _), _, _)  = if gender then (true, thisprofile) else (false, ())
    
-0
+   fun receiveMatch matches = 
+      let
+         val profile = receive [hn ("NEWMATCH", profile )
+                              => profile
+                           ]
+         val _ = print matches
+      in
+         receiveMatch(profile::matches)
+      end
+
+   fun main () =
+      let
+         val thisNode = node (self ())
+         val data = (thisprofile, genderPreference, 1234567)
+         val p =  spawn (fn() => receiveMatch [])
+
+      in
+         send(p, ("NEWPROFILE", data))
+      end
+
+
+in
+  main()
+end
