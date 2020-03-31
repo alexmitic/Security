@@ -1,11 +1,15 @@
 (* Starting file for the server *)
 
 import lists
-let fun server () = (* TODO: finish this *)
-         let val _ = receive [hn ("NEWPROFILE", _ )
-                                => printString "New profile received"
+let
+    fun server ls = (* TODO: finish this *)
+         let
+            val data = receive [hn ("NEWPROFILE", data )
+                                => data
                              ]
-         in server ()
+            val _ = print ls
+         in 
+            server (data::ls)
          end
 
     (* Our main function starts the server and then requests the
@@ -14,7 +18,7 @@ let fun server () = (* TODO: finish this *)
     fun main () =       
         let val thisNode = node (self ())
             val _ = printString ("Running node with identifier: " ^ thisNode)
-            val _ =  register ("datingServer", spawn server, authority)
+            val _ =  register ("datingServer", spawn (fn() => server []), authority)
         in  (* TODO: you probably want to comment out the next line
                      while you develop your solution and work on a few 
                      custom clients;  *)
