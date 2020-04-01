@@ -1,0 +1,32 @@
+(* Placeholder for the dating-client. Note that in order to communicate 
+   with your server you will need to create the corresponding 
+   trustmap file *)
+import lists
+let
+   val thisprofile = ({notjohn}, "Not-John", 1918, false, ["snow", "dogs", "guard", "weather forecast"])
+   fun genderPreference _  = (true, thisprofile) (* if gender then (true, thisprofile) else (false, ())*)
+   
+   fun receiveMatch matches = 
+      let
+         val profile = receive [hn ("NEWMATCH", profile )
+                              => profile
+                           ]
+         val new_matches = profile::matches
+         val _ = print new_matches
+      in
+         receiveMatch new_matches
+      end
+
+   fun main () =
+      let
+         val p =  spawn (fn() => receiveMatch [])
+         val _ = register("client",  p, authority)
+         val data = (thisprofile, genderPreference, p)
+      in 
+         send(whereis ("QmaWwd8W8reMEkkavJxDnthukzGq9Y5D1QFbJja2iquBbX", "datingServer"), ("NEWPROFILE", data))
+      end
+
+
+in
+  main()
+end
