@@ -20,6 +20,7 @@ let
       end
 
    fun match [] _ matched = matched
+   | match _ [] matched = matched 
    | match p2::ps p1 matched =
       let   
          val m = cmp p1 p2 matched
@@ -30,26 +31,26 @@ let
             match ps p1 matched
       end
 
-   fun match_all [] _ matched = matched
-   | match_all _ [] matched = matched
-   | match_all profiles p1::ps matched = 
+   fun match_all _ [] matched = matched 
+   | match_all [] _ matched = matched 
+   | match_all profiles (p1::ps) matched =
       let   
          val new_matches = match profiles p1 matched
       in 
          match_all profiles ps matched::new_matches
       end
-     
-   
-
+  
     fun server ls matched = (* TODO: finish this *)
          let
             val data = receive [hn ("NEWPROFILE", data )
                                 => data
                              ]
-            val _ = print ls
-            val new_matches = match_all ls ls matched
+            val new_ls = data::ls
+            val _ = print new_ls
+            
+            val new_matches = match_all new_ls new_ls [(data, data)]::matched
          in 
-            (server data::ls new_matches)
+            (server new_ls new_matches)
          end
 
     (* Our main function starts the server and then requests the
@@ -58,7 +59,7 @@ let
     fun main () =       
         let val thisNode = node (self ())
             val _ = printString ("Running node with identifier: " ^ thisNode)
-            val _ =  register ("datingServer", spawn (fn() => server ([] [])), authority)
+            val _ =  register ("datingServer", spawn (fn() => server [] []), authority)
         in  (* TODO: you probably want to comment out the next line
                      while you develop your solution and work on a few 
                      custom clients;  *)
