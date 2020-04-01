@@ -4,7 +4,7 @@
 import lists
 let
    val thisprofile = ({john}, "John", 1918, false, ["snow", "dogs", "guard", "weather forecast"])
-   fun genderPreference _  = (true, thisprofile) (* if gender then (true, thisprofile) else (false, ())*)
+   fun genderPreference (_, _, _, gender, _)  = if gender then (true, thisprofile) else (false, ())
    
    fun receiveMatch matches = 
       let
@@ -20,13 +20,13 @@ let
    fun main () =
       let
          val p =  spawn (fn() => receiveMatch [])
+         val thisNode = node (self ())
+         val _ = print thisNode
          val _ = register("client",  p, authority)
          val data = (thisprofile, genderPreference, p)
       in 
          send(whereis ("QmaWwd8W8reMEkkavJxDnthukzGq9Y5D1QFbJja2iquBbX", "datingServer"), ("NEWPROFILE", data))
       end
-
-
 in
   main()
 end

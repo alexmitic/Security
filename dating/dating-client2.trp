@@ -3,8 +3,8 @@
    trustmap file *)
 import lists
 let
-   val thisprofile = ({notjohn}, "Not-John", 1918, false, ["snow", "dogs", "guard", "weather forecast"])
-   fun genderPreference _  = (true, thisprofile) (* if gender then (true, thisprofile) else (false, ())*)
+   val thisprofile = ({Doe}, "Doe", 1919, true, ["Donuts", "signatures"])
+   fun genderPreference (_, _, _, gender, _)  = if gender then (false, ()) else (true, thisprofile)
    
    fun receiveMatch matches = 
       let
@@ -20,6 +20,8 @@ let
    fun main () =
       let
          val p =  spawn (fn() => receiveMatch [])
+         val thisNode = node (self ())
+         val _ = print thisNode
          val _ = register("client",  p, authority)
          val data = (thisprofile, genderPreference, p)
       in 
