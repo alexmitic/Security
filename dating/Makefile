@@ -5,3 +5,7 @@ dating-server:
 dating-client:
 	$(TROUPE)/bin/troupec dating-client.trp -o ./out/dating-client.js
 	node $(TROUPE)/rt/built/troupe.js -f=./out/dating-client.js --trustmap=../trustmaps/client.json
+
+dating-client2:
+	$(TROUPE)/bin/troupec dating-client2.trp -o ./out/dating-client2.js
+	node $(TROUPE)/rt/built/troupe.js -f=./out/dating-client2.js --trustmap=../trustmaps/client.json
