@@ -3,7 +3,11 @@
    trustmap file *)
 import lists
 let
-   val thisprofile = ({Doe}, "Doe", 1919, true, ["Donuts", "signatures"])
+   val name = "Doe" raisedTo {doe}
+   val year = 1919 raisedTo {doe}
+   val gender = true raisedTo {doe}
+   val interests = ["Donuts", "signatures"] raisedTo {doe}
+   val thisprofile = ({doe}, name, year, gender, interests)
    fun genderPreference (_, _, _, gender, _)  = if gender then (false, ()) else (true, thisprofile)
    
    fun receiveMatch matches = 
