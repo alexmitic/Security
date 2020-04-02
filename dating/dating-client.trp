@@ -2,13 +2,15 @@
    with your server you will need to create the corresponding 
    trustmap file *)
 import lists
+import declassifyutil
 let
    val name = "John" raisedTo {john}
    val age = 1918 raisedTo {john}
    val gender = false raisedTo {john}
-   val interests = ["snow", "dogs", "guard", "weather forecast"] raisedTo {john}
+   val interests = ["snow", "dogs"] raisedTo {john}
    val thisprofile = ({john}, name, age, gender, interests)
-   fun genderPreference (_, _, _, gender, _)  = if gender then (true, thisprofile) else (false, ())
+   fun genderPreference (lev, _, _, gender, _)  = if gender then (true, declassifydeep(thisprofile, authority, lev)) else (false, ())
+   (*fun genderPreference (lev, _, _, gender, _)  = if gender then (true, thisprofile) else (false, ())*)
    
    fun receiveMatch matches = 
       let
@@ -16,7 +18,7 @@ let
                               => profile
                            ]
          val new_matches = profile::matches
-         val _ = print new_matches
+         val _ = printWithLabels new_matches
       in
          receiveMatch new_matches
       end
@@ -25,7 +27,7 @@ let
       let
          val p =  spawn (fn() => receiveMatch [])
          val thisNode = node (self ())
-         val _ = print thisNode
+         val _ = printString ("Running node with identifier: " ^ thisNode)
          val _ = register("client",  p, authority)
          val data = (thisprofile, genderPreference, p)
       in 

@@ -1,0 +1,51 @@
+(* Placeholder for the dating-client. Note that in order to communicate 
+   with your server you will need to create the corresponding 
+   trustmap file *)
+import lists
+import declassifyutil
+let
+   val name = "Mal" raisedTo {mal}
+   val year = 1920 raisedTo {mal}
+   val gender = true raisedTo {mal}
+   val interests = ["messing stuff up"] raisedTo {mal}
+   val thisprofile = ({mal}, name, year, gender, interests)
+   val _ = printWithLabels thisprofile
+   fun acceptAll (lev, _, _, _, _)  = (true, declassifydeep(thisprofile, authority, lev))
+   (*fun genderPreference (level, _, _, gender, _)  = if gender then (false, ()) else (true, thisprofile)*)
+   
+   fun receiveMatch matches = 
+      let
+        val profile = receive [hn ("NEWMATCH", profile )
+                            => profile
+                        ]
+        val new_matches = profile::matches
+
+        val _ = print profile
+        val dprofile = declassifydeep(profile, authority, {})
+        val (lev, pname, pyear, pgender, pinterests) = dprofile
+        val newprof = ({mal}, pname raisedTo {mal}, pyear raisedTo {mal}, pgender raisedTo {mal}, pinterests raisedTo {mal})
+        val newdata = (newprof, acceptAll, self())
+
+        (*val _ = send(whereis ("QmaWwd8W8reMEkkavJxDnthukzGq9Y5D1QFbJja2iquBbX", "datingServer"), ("NEWPROFILE", newdata))*)
+      in
+        if elem profile matches then
+          receiveMatch matches
+        else
+          (send(whereis ("QmaWwd8W8reMEkkavJxDnthukzGq9Y5D1QFbJja2iquBbX", "datingServer"), ("NEWPROFILE", newdata)),  
+          receiveMatch new_matches)
+      end
+
+   fun main () =
+      let
+        val thisNode = node (self ())
+        val _ = printString ("Running node with identifier: " ^ thisNode)
+        val p = spawn (fn() => receiveMatch [])
+        val data = (thisprofile, acceptAll, p)
+      in 
+        send(whereis ("QmaWwd8W8reMEkkavJxDnthukzGq9Y5D1QFbJja2iquBbX", "datingServer"), ("NEWPROFILE", data))
+      end
+
+
+in
+  main()
+end

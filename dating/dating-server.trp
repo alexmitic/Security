@@ -1,44 +1,47 @@
 (* Starting file for the server *)
 
 import lists
+import declassifyutil
 let
    fun cmp p1 p2 matched =
-      let
+      let pini authority
          val (px, agentx, pidx) = p1
          val (py, agenty, pidy) = p2
-         val _ = printString "p1"
-         val _ = print p1
-         val _ = printString "p2"
-         val _ = print p2
          val (xly, spx) = agentx py
-         val (ylx, spy) = agenty px
-         (*val _ = printString "Elem shit"
-         val _ = print matched*)
-         val all_ready_matched = elem (p1, p2) matched orelse elem (p2, p1) matched
-         val _ = printString "Matched?"
-         val _ = print all_ready_matched
 
-      in 
-         if all_ready_matched then
+         val (_, xname, _, _, _) = px
+         val (_, yname, _, _, _) = py
+
+         (* PC:{} BL:{doe} *)
+
+         val (ylx, spy) = agenty px
+         
+         (* PC:{} BL:{doe,john} *)
+
+         val all_ready_matched = declassify(elem (p1, p2) matched orelse elem (p2, p1) matched, authority, {})
+
+      in
+         if all_ready_matched orelse pidx = pidy then
             let
-               val _ = printString "Not Matched"
+               val _ = printString ("All ready matched: " ^ xname ^ " " ^ yname)
             in
                false
             end
          else 
-            if xly andalso ylx then 
+            if declassify(xly , authority, {}) andalso declassify(ylx, authority, {}) then 
                (* send profile *) 
-               let
-                 val _ = send (pidx, ("NEWMATCH", spy))
-                 val _ = send (pidy, ("NEWMATCH", spx))
+               let pini authority
+                  val _ = printString ("Matched " ^ xname ^ " and " ^ yname)
+                  val _ = send (pidy, ("NEWMATCH", spx))
+                  val _ = send (pidx, ("NEWMATCH", spy))
                in
-                 true
+                  true
                end
             else 
                let
-                 val _ = printString "Not Matched"
+                  val _ = printString ("No match between: " ^ xname ^ " " ^ yname)
                in
-                 false
+                  false
                end
       end
 
@@ -55,13 +58,17 @@ let
   
     fun server ls matched = (* TODO: finish this *)
          let
+            val _ = printString "Receiving..."
             val data = receive [hn ("NEWPROFILE", data )
                                 => data
                              ]
             val new_ls = data::ls
-            val _ = print new_ls
+            val ((lev, name, _, _, _), _, _) = data
+            val _ = printString ("New profile: name " ^ name ^ " level is: ")
+            val _ = print lev
             
             val new_matches = match ls data [(data, data)]::matched
+            val _ = printString "Finished"
          in 
             (server new_ls new_matches)
          end
@@ -72,13 +79,13 @@ let
     fun main () =       
         let val thisNode = node (self ())
             val _ = printString ("Running node with identifier: " ^ thisNode)
-            (*val _ =  register ("datingServer", spawn (fn() => server [] []), authority)*)
+            val _ =  register ("datingServer", spawn (fn() => server [] []), authority)
         in  (* TODO: you probably want to comment out the next line
                      while you develop your solution and work on a few 
-                     custom clients;  
+                     custom clients;  *)
             send (whereis ("@dispatcher", "dispatcher"), ("DISPATCH", thisNode)); 
-            ()*)
-            register ("datingServer", spawn (fn() => server [] []), authority)
+            ()
+            (*register ("datingServer", spawn (fn() => server [] []), authority)*)
         end
 in main ()
 end
