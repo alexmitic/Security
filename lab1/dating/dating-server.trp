@@ -78,14 +78,12 @@ let
 
     fun main () =       
         let val thisNode = node (self ())
-            val _ = printString ("Running node with identifier: " ^ thisNode)
-            (*val _ =  register ("datingServer", spawn (fn() => server [] []), authority)*)
-        in  (* TODO: you probably want to comment out the next line
-                     while you develop your solution and work on a few 
-                     custom clients;  
-            send (whereis ("@dispatcher", "dispatcher"), ("DISPATCH", thisNode)); 
-            ()*)
+            val _ = printString ("Running node gotwith identifier: " ^ thisNode)
+            (* val _ = register ("datingServer", spawn (fn() => server [] []), authority) *)
+        in 
             register ("datingServer", spawn (fn() => server [] []), authority)
+            (*send (whereis ("@dispatcher", "dispatcher"), ("DISPATCH", thisNode)); 
+            ()*)
         end
 in main ()
 end

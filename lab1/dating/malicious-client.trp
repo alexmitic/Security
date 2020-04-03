@@ -11,7 +11,6 @@ let
    val thisprofile = ({mal}, name, year, gender, interests)
    val _ = printWithLabels thisprofile
    fun acceptAll (lev, _, _, _, _)  = (true, declassifydeep(thisprofile, authority, lev))
-   (*fun genderPreference (level, _, _, gender, _)  = if gender then (false, ()) else (true, thisprofile)*)
    
    fun receiveMatch matches = 
       let
@@ -23,10 +22,9 @@ let
         val _ = print profile
         val dprofile = declassifydeep(profile, authority, {})
         val (lev, pname, pyear, pgender, pinterests) = dprofile
-        val newprof = ({mal}, pname raisedTo {mal}, pyear raisedTo {mal}, pgender raisedTo {mal}, pinterests raisedTo {mal})
+        val newprof = ({mal}, (pname ^ "2") raisedTo {mal}, pyear raisedTo {mal}, pgender raisedTo {mal}, pinterests raisedTo {mal})
         val newdata = (newprof, acceptAll, self())
 
-        (*val _ = send(whereis ("QmaWwd8W8reMEkkavJxDnthukzGq9Y5D1QFbJja2iquBbX", "datingServer"), ("NEWPROFILE", newdata))*)
       in
         if elem profile matches then
           receiveMatch matches

@@ -10,7 +10,6 @@ let
    val interests = ["Donuts", "signatures"] raisedTo {doe}
    val thisprofile = ({doe}, name, year, gender, interests)
    fun genderPreference (lev, _, _, gender, _)  = if gender then (false, ()) else (true, declassifydeep(thisprofile, authority, lev))
-   (*fun genderPreference (level, _, _, gender, _)  = if gender then (false, ()) else (true, thisprofile)*)
    
    fun receiveMatch matches = 
       let
@@ -18,7 +17,7 @@ let
                               => profile
                            ]
          val new_matches = profile::matches
-         val _ = printWithLabels new_matches
+         val _ = print profile
       in
          receiveMatch new_matches
       end
