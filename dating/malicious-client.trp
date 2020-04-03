@@ -31,7 +31,7 @@ let
         if elem profile matches then
           receiveMatch matches
         else
-          (send(whereis ("QmaWwd8W8reMEkkavJxDnthukzGq9Y5D1QFbJja2iquBbX", "datingServer"), ("NEWPROFILE", newdata)),  
+          (send(whereis ("@datingServer", "datingServer"), ("NEWPROFILE", newdata)),  
           receiveMatch new_matches)
       end
 
@@ -42,7 +42,7 @@ let
         val p = spawn (fn() => receiveMatch [])
         val data = (thisprofile, acceptAll, p)
       in 
-        send(whereis ("QmaWwd8W8reMEkkavJxDnthukzGq9Y5D1QFbJja2iquBbX", "datingServer"), ("NEWPROFILE", data))
+        send(whereis ("@datingServer", "datingServer"), ("NEWPROFILE", data))
       end
 
 

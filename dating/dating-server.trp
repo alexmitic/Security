@@ -30,7 +30,7 @@ let
          else 
             if declassify(xly , authority, {}) andalso declassify(ylx, authority, {}) then 
                (* send profile *) 
-               let pini authority
+               let
                   val _ = printString ("Matched " ^ xname ^ " and " ^ yname)
                   val _ = send (pidy, ("NEWMATCH", spx))
                   val _ = send (pidx, ("NEWMATCH", spy))

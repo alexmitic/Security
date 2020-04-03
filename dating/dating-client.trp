@@ -31,7 +31,7 @@ let
          val _ = register("client",  p, authority)
          val data = (thisprofile, genderPreference, p)
       in 
-         send(whereis ("QmaWwd8W8reMEkkavJxDnthukzGq9Y5D1QFbJja2iquBbX", "datingServer"), ("NEWPROFILE", data))
+         send(whereis ("@datingServer", "datingServer"), ("NEWPROFILE", data))
       end
 in
   main()
