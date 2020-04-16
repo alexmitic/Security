@@ -1,0 +1,5 @@
+xss privelage
+
+curl -id 'username=bob&password=123' localhost:3000/login
+
+curl --header "Content-Type: application/json" -id '{"bio": "hacker"}' -b connect.sid=tokenid localhost:3000/updateBio
