@@ -5,12 +5,17 @@ const mongo = require('../db')
 const passport = require('passport')
 require('../passport')
 
+function escapeRegExp(string) {
+  return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
 
 // Middleware requiring the user to be authenticated
 function validatePassword(req, res, next) {
   
   let pass = req.body.password;
   let name = req.body.username;
+
+  name = escapeRegExp(name);
 
   //console.log(pass, name)
   // vaildate password
