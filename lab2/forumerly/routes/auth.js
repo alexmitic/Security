@@ -28,6 +28,18 @@ function validatePassword(req, res, next) {
   next()
 }
 
+// Fixes session fixation
+var session = function (req, res) {
+    var temp = req.session.passport; // {user: 1}
+    req.session.regenerate(function(err){
+        //req.session.passport is now undefined
+        req.session.passport = temp;
+        req.session.save(function(err){
+            res.redirect('/');
+        });
+    });
+};
+
 router
   // POST signup via passport local strategey
   .post('/signup',validatePassword, passport.authenticate('local-register', {
@@ -43,6 +55,8 @@ router
     failureRedirect: 'back',
     failureFlash: true
   }))
+
+  // .post('/login', passport.authenticate('local'), session)
 
   // GET Logout and redirect
   .get('/logout', (req, res) => {
