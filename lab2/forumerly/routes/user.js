@@ -23,10 +23,16 @@ function loginRequired(req, res, next) {
   next()
 }
 
+function escapeRegExp(string) {
+  return string.replace(/[.*+\-?^${}()|[\]\\]/g, '\\$&'); // $& means the whole matched string
+}
+
 function validatePassword(req, res, next) {
   
   let pass = req.body.newPassword;
   let name = req.user.username;
+
+  name = escapeRegExp(name);
 
   // vaildate password
   if (pass.match(name)) {
