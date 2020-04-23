@@ -1,1 +1,1 @@
-docker stop lbs-services
+sudo docker stop lbs-services

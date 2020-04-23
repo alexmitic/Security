@@ -40,6 +40,32 @@ function authenticate(req, username, password, done) {
     
       await util.compare('','')
       return done(null, user)
+      /* Mitigation
+      const maxlen = 30
+      correct = true
+
+      if (err) {return done(err)}
+      
+      if (!user) {
+        return done(null, false, { message: 'Invalid username or password.' })
+      }
+
+      else if (password.length != user.password.length) {
+        correct = false
+      }
+    
+      for (i = 0; i < maxlen; i++) {
+        pass = i % password.length
+        upass = i % user.password.length
+        if (!(password[pass] == user.password[upass]))
+          correct = false
+      }
+    
+      await util.compare('','')
+      if(correct)
+        return done(null, user)
+      else
+        return done(null, false, { message: 'Invalid username or password.' });*/ 
     })
 }
 

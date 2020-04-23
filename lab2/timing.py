@@ -3,7 +3,7 @@ import time
 
 usr = "aaaa" #123456789
 usr = "bbbb" #12345
-#usr = "cccc" #123
+usr = "cccc" #123
 psw = ""
 
 oldtime = 1000
@@ -20,6 +20,7 @@ for i in range(1, 11):
     print(comptime)
     if comptime <= oldtime*2:
         oldtime = comptime
+        passlen=i
         continue
     else:
         passlen = i
@@ -53,6 +54,11 @@ for i in range(passlen):
         else:
             oldtime = comptime
             break
+    if j == 10:
+        if i == passlen:
+            psw = psw[:i] + str(0)
+        else:
+            psw = psw[:i] + str(0) + psw[i+1:]
 
 print(usr)
 print(psw)
