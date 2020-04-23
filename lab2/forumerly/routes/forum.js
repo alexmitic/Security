@@ -4,6 +4,9 @@ const router = express.Router()
 const mongo = require('../db')
 const ObjectID = require('mongodb').ObjectID
 const moment = require('moment-timezone')
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
+
 
 moment.tz.setDefault("America/New_York") // All formated times will be in this timezone by default
 
@@ -217,11 +220,11 @@ router
                 thread.lcCategory = thread.category.toLowerCase()
                 thread.lcTopic = thread.topic
                 thread.topic = thread.topic.capitalizeFirstLetter()
-                thread.body = thread.body
-                  .replace('<script', '')
-                  .replace('<img', '')
-                  .replace('<svg', '')
-                  .replace('javascript:', '')
+
+                const window = new JSDOM('').window;
+                const DOMPurify = createDOMPurify(window);
+
+                thread.body = DOMPurify.sanitize(thread.body);
 
                 if (thread.subject.length > 18) {
                   thread.browserTitle = thread.subject.slice(0, 15) + '...'
