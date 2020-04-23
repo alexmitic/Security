@@ -54,7 +54,7 @@ function authenticate(req, username, password, done) {
         correct = false
       }
     
-      for (i = 0; i < maxlen; i++) {
+      for (i = 0; i <= maxlen; i++) {
         pass = i % password.length
         upass = i % user.password.length
         if (!(password[pass] == user.password[upass]))
