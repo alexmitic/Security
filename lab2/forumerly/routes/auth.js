@@ -50,13 +50,13 @@ router
   }))
 
   // POST login via passport local strategey
-  .post('/login', passport.authenticate('local', {
-    successRedirect: 'back',
-    failureRedirect: 'back',
-    failureFlash: true
-  }))
+  // .post('/login', passport.authenticate('local', {
+  //   successRedirect: 'back',
+  //   failureRedirect: 'back',
+  //   failureFlash: true
+  // }))
 
-  // .post('/login', passport.authenticate('local'), session)
+  .post('/login', passport.authenticate('local'), session)
 
   // GET Logout and redirect
   .get('/logout', (req, res) => {
