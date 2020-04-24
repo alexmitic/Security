@@ -226,11 +226,11 @@ router
 
                 thread.body = DOMPurify.sanitize(thread.body);
 
-                // thread.body = thread.body
-                //    .replace('<script', '')
-                //    .replace('<img', '')
-                //    .replace('<svg', '')
-                //    .replace('javascript:', '')
+                /*thread.body = thread.body
+                   .replace('<script', '')
+                   .replace('<img', '')
+                   .replace('<svg', '')
+                   .replace('javascript:', '')*/
 
                 if (thread.subject.length > 18) {
                   thread.browserTitle = thread.subject.slice(0, 15) + '...'

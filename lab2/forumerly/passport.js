@@ -23,7 +23,7 @@ console.log(secrets.googleClientID);
 function authenticate(req, username, password, done) {
   mongo.db.collection("users")
     .findOne({ lcUsername: username.toLowerCase() }, {collation: {locale: "en", strength: 2}}, async (err, user) => {
-      if (err) {return done(err)}
+      /* if (err) {return done(err)}
       
       if (!user) {
         return done(null, false, { message: 'Invalid username or password.' })
@@ -39,8 +39,9 @@ function authenticate(req, username, password, done) {
       }
     
       await util.compare('','')
-      return done(null, user)
-      /* Mitigation
+      return done(null, user) */
+      
+      // Mitigation
       const maxlen = 30
       correct = true
 
@@ -65,7 +66,7 @@ function authenticate(req, username, password, done) {
       if(correct)
         return done(null, user)
       else
-        return done(null, false, { message: 'Invalid username or password.' });*/ 
+        return done(null, false, { message: 'Invalid username or password.' });
     })
 }
 
