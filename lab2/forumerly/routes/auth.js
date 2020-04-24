@@ -15,7 +15,7 @@ function validatePassword(req, res, next) {
   let pass = req.body.password;
   let name = req.body.username;
 
-  name = escapeRegExp(name);
+  // name = escapeRegExp(name);
 
   //console.log(pass, name)
   // vaildate password
@@ -50,13 +50,13 @@ router
   }))
 
   // POST login via passport local strategey
-  // .post('/login', passport.authenticate('local', {
-  //   successRedirect: 'back',
-  //   failureRedirect: 'back',
-  //   failureFlash: true
-  // }))
+  .post('/login', passport.authenticate('local', {
+    successRedirect: 'back',
+    failureRedirect: 'back',
+    failureFlash: true
+  }))
 
-  .post('/login', passport.authenticate('local'), session)
+  // .post('/login', passport.authenticate('local'), session)
 
   // GET Logout and redirect
   .get('/logout', (req, res) => {
