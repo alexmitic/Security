@@ -32,7 +32,7 @@ function validatePassword(req, res, next) {
   let pass = req.body.newPassword;
   let name = req.user.username;
 
-  name = escapeRegExp(name);
+  // name = escapeRegExp(name);
 
   // vaildate password
   if (pass.match(name)) {
