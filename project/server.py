@@ -25,7 +25,10 @@ def query_db(query, args=(), one=False):
 @app.route('/isuser')
 def index():
     username = request.args.get('username')
-    user = query_db('select * from users where username = ?', (username,), one=True)
+    q = 'select * from users where username=\'' + username + '\''
+    print(q)
+
+    user = query_db(q, one=True)
     if user is None:
         return 'No such user'
     else:
