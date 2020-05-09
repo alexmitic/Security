@@ -3,9 +3,9 @@
 -- Run query below to create table
 
 CREATE TABLE users (
-    password TEXT PRIMARY KEY,
-    username TEXT 
+    username TEXT PRIMARY KEY,
+    password TEXT 
 );
 
-INSERT INTO users VALUES ('123', 'alex');
-INSERT INTO users VALUES ('term', 'momme');
+INSERT INTO users VALUES ('alex', '123');
+INSERT INTO users VALUES ('momme', 'momme sluta köra git add all och pusha hela din dator med din fina __pycache__');
