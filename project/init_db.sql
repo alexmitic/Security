@@ -3,8 +3,9 @@
 -- Run query below to create table
 
 CREATE TABLE users (
-    username TEXT PRIMARY KEY,
-    password TEXT 
+    password TEXT PRIMARY KEY,
+    username TEXT 
 );
 
-INSERT INTO users VALUES ("alex", "123");
+INSERT INTO users VALUES ('123', 'alex');
+INSERT INTO users VALUES ('term', 'momme');
