@@ -39,13 +39,13 @@
         </activity>
 
         <activity
+            android:exported="false"
             android:name=".DataBaseActivity"
             android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
                 <action android:name="tcs.lbs.notes.DataBaseManager"/>
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>
