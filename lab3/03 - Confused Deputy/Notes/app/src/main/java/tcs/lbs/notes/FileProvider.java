@@ -15,6 +15,7 @@ public class FileProvider extends ContentProvider
     @Override
     public ParcelFileDescriptor openFile(Uri uri, String mode)
     {
+
         String path = uri.getPath();
 
         if (path == null)
@@ -25,6 +26,15 @@ public class FileProvider extends ContentProvider
         try
         {
             File f = new File(getContext().getCacheDir().getCanonicalPath() + path);
+
+            String basePath = getContext().getCacheDir().getCanonicalPath();
+
+            // Mitigation
+//            if (f.getCanonicalPath().startsWith(basePath)) {
+//                return ParcelFileDescriptor.open(f, ParcelFileDescriptor.MODE_READ_ONLY);
+//            } else {
+//                return null;
+//            }
 
             return ParcelFileDescriptor.open(f, ParcelFileDescriptor.MODE_READ_ONLY);
         }
