@@ -3,6 +3,7 @@ package tcs.lbs.locationapp;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import android.Manifest;
 import android.content.BroadcastReceiver;
@@ -54,7 +55,8 @@ public class MainActivity extends AppCompatActivity
         IntentFilter filter = new IntentFilter();
         filter.addAction("tcs.lbs.locationapp.MainActivityReceiver");
         registerReceiver(new MainActivityReceiver(), filter);
-
+	    // Mitigation for intra-app intentsniffing
+        //LocalBroadcastManager.getInstance(this).
 
         // Check if the app has access to device's Location
         // Also check if the app has access to writing to external storage

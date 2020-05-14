@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity
 
 
     static final String interRECEIVER_ACTION = "tcs.lbs.weather_app.WeatherBroadcastReceiver";
-    static final String intraRECEIVER_ACTION = "tcs.lbs.locationapp.MainActivityReceiver";
+    //static final String intraRECEIVER_ACTION = "tcs.lbs.locationapp.MainActivityReceiver";
     LocationBroadcastReceiver lReceiver;
 
     @Override
@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
 
         IntentFilter filter = new IntentFilter();
         filter.addAction(interRECEIVER_ACTION);
-        filter.addAction(intraRECEIVER_ACTION);
+        //filter.addAction(intraRECEIVER_ACTION);
 
         lReceiver = new LocationBroadcastReceiver();
         registerReceiver(lReceiver, filter);
@@ -63,10 +63,12 @@ public class MainActivity extends AppCompatActivity
         {
             Bundle extras = intent.getExtras();
             Location loc = (Location)extras.get("Location");
-            String lat= "" + loc.getLatitude();
-            String lon= "" + loc.getLongitude();
-            LatitudeTextView.setText(lat);
-            LongitudeTextView.setText(lon);
+	    	if (loc != null){
+		        String lat= "" + loc.getLatitude();
+		        String lon= "" + loc.getLongitude();
+		        LatitudeTextView.setText(lat);
+		        LongitudeTextView.setText(lon);
+			}
         }
     }
 }

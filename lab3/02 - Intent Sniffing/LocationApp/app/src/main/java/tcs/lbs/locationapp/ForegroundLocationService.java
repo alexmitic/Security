@@ -19,6 +19,7 @@ import android.os.IBinder;
 import android.widget.Toast;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class ForegroundLocationService extends Service implements LocationListener
 {
@@ -37,7 +38,6 @@ public class ForegroundLocationService extends Service implements LocationListen
     private String provider;
 
 
-
     @Override
     public void onCreate()
     {
@@ -46,6 +46,8 @@ public class ForegroundLocationService extends Service implements LocationListen
         locationAppIntent = new Intent();
         weatherIntent = new Intent();
         weatherIntent.setAction("tcs.lbs.weather_app.WeatherBroadcastReceiver");
+        // Mitigation for Inter-app broadcast sniffing
+        //weatherIntent.setPackage("tcs.lbs.weather_app");
         locationAppIntent.setAction("tcs.lbs.locationapp.MainActivityReceiver");
     }
 
@@ -146,10 +148,13 @@ public class ForegroundLocationService extends Service implements LocationListen
         locationAppIntent.putExtra("Location", _location);
         weatherIntent.putExtra("Location", _location);
 
-        // Send inter-app broadcast to MainActivity
+        // Send intra-app broadcast to MainActivity
         sendBroadcast(locationAppIntent);
 
-        // Send intra-app broadcast to WeatherApp
+        // Mitigation for intra-app intentsniffing
+        //LocalBroadcastManager.getInstance(this).sendBroadcast(locationAppIntent);
+
+        // Send inter-app broadcast to WeatherApp
         sendBroadcast(weatherIntent);
     }
 
