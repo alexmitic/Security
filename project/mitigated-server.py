@@ -16,8 +16,8 @@ def get_db():
         db = Flask._database = sqlite3.connect(DATABASE)
     return db
 
-def query_db(query, one=False):
-    cur = get_db().execute(query)
+def query_db(query, args=(), one=False):
+    cur = get_db().execute(query, args)
     rv = cur.fetchall()
     cur.close()
     return (rv[0] if rv else None) if one else rv
@@ -25,10 +25,10 @@ def query_db(query, one=False):
 @app.route('/isuser')
 def index():
     username = request.args.get('username')
-    q = "select * from users where username='" + username + "'"
+    q = "select * from users where username='%s'"
     print(q)
 
-    user = query_db(q, one=True)
+    user = query_db(q, (username), one=True)
     if user is None:
         return 'No such user\n'
     else:
